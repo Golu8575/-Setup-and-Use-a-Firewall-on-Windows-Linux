@@ -1,0 +1,79 @@
+# Kali Linux Firewall Configuration Script - UFW
+# Author: Cyber Security Intern
+# Description: This script demonstrates setting up firewall rules using UFW with comments explaining each step.
+
+# Step 1: Update system and install UFW if not installed
+sudo apt update && sudo apt install -y ufw
+
+# Step 2: Check UFW status before starting
+sudo ufw status verbose
+
+# Output: Status: inactive (or active if previously enabled)
+
+# Step 3: Setup default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Step 4: Allow SSH (port 22) for remote connection
+sudo ufw allow 22
+
+# Step 5: Enable UFW firewall
+sudo ufw enable
+
+# Output: Firewall is active and enabled on system startup
+
+# Step 6: Check UFW status with numbered rules
+sudo ufw status numbered
+
+# Step 7: Block Telnet Port 23 (insecure port)
+sudo ufw deny 23
+
+# Step 8: Check UFW status to confirm block
+sudo ufw status
+
+# Step 9: Allow HTTP (port 80) and HTTPS (port 443) for web traffic
+sudo ufw allow 80
+sudo ufw allow 443
+
+# Step 10: Deny FTP port 21 to enhance security
+sudo ufw deny 21
+
+# Step 11: Check application profile list
+sudo ufw app list
+
+# Step 12: Allow Nginx Full profile (HTTP and HTTPS)
+sudo ufw allow 'Nginx Full'
+
+# Step 13: Reload UFW to apply changes
+echo "Reloading UFW to apply new rules"
+sudo ufw reload
+
+# Step 14: Check detailed UFW status
+sudo ufw status verbose
+
+# Step 15: Allow traffic from specific IP (e.g., 192.168.1.100)
+sudo ufw allow from 192.168.1.100
+
+# Step 16: Deny traffic from specific IP (e.g., 10.0.0.50)
+sudo ufw deny from 10.0.0.50
+
+# Step 17: Allow traffic on custom port range (10000 to 10010)
+for port in {10000..10010}
+do
+  sudo ufw allow $port
+  echo "Allowed port $port"
+done
+
+# Step 18: Deny traffic on UDP port 123 (NTP)
+sudo ufw deny 123/udp
+
+# Step 19: Show numbered rules before deletion
+sudo ufw status numbered
+
+# Step 20: Delete rule #5 (for example)
+sudo ufw delete 5
+
+# Step 21: Disable UFW firewall when done
+sudo ufw disable
+
+# End of script
